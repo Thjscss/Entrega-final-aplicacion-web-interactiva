@@ -1,0 +1,526 @@
+/* ====== VARIABLES (paleta tomada del logo: cian → violeta sobre índigo) ====== */
+:root {
+  --fondo: #0e0f1f;
+  --superficie: #171933;
+  --superficie-alta: #1f2145;
+  --borde: #2d3060;
+  --texto: #eceefc;
+  --texto-suave: #a3a8d1;
+  --cian: #22d3ee;
+  --violeta: #8b5cf6;
+  --degradado: linear-gradient(135deg, var(--cian), var(--violeta));
+  --peligro: #ff7a90;
+  --exito: #4ade80;
+}
+
+/* ====== BASE ====== */
+body {
+  background-color: var(--fondo);
+  color: var(--texto);
+  font-family: "Roboto", sans-serif;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cian);
+  outline-offset: 2px;
+}
+
+/* ====== BARRA SUPERIOR ====== */
+.barra-superior {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.25rem;
+  background-color: rgba(14, 15, 31, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--borde);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--texto);
+  text-decoration: none;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.marca-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.enlace-carrito {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--texto);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contador-carrito {
+  min-width: 1.6rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: var(--degradado);
+  color: #0e0f1f;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* ====== PORTADA ====== */
+.contenido {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.portada {
+  margin-bottom: 2rem;
+}
+
+.portada h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.portada p {
+  color: var(--texto-suave);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.titulo-seccion {
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+}
+
+/* ====== HERRAMIENTAS DEL CATÁLOGO ====== */
+.herramientas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 576px) {
+  .herramientas {
+    grid-template-columns: 1fr 240px;
+  }
+}
+
+.filtros-categoria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.chip {
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--texto-suave);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+.chip:hover {
+  color: var(--texto);
+  border-color: var(--violeta);
+}
+
+.chip.activo {
+  background: var(--superficie-alta);
+  border-color: var(--cian);
+  color: var(--texto);
+}
+
+.contador-resultados {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ====== ESTADOS DE LA PETICIÓN ====== */
+.estado-carga,
+.bloque-error {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  min-height: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+/* display:flex pisa al atributo [hidden] si no se refuerza */
+.estado-carga[hidden],
+.bloque-error[hidden] {
+  display: none;
+}
+
+.bloque-error p {
+  color: var(--peligro);
+  margin: 0;
+}
+
+/* ====== CATÁLOGO ====== */
+.grilla-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+}
+
+.tarjeta-producto {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.tarjeta-imagen {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-bottom: 1px solid var(--borde);
+}
+
+.etiqueta-categoria {
+  align-self: flex-start;
+  margin: 0.9rem 0 0 1rem;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: var(--superficie-alta);
+  color: var(--cian);
+  font-size: 0.8rem;
+}
+
+.tarjeta-nombre {
+  margin: 0.5rem 1rem 0;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  flex-grow: 1;
+}
+
+.tarjeta-precio {
+  margin: 0.6rem 1rem 0;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.tarjeta-stock {
+  margin: 0.1rem 1rem 0.8rem;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+.tarjeta-producto .btn-tienda {
+  margin: 0 1rem 1rem;
+}
+
+.mensaje-vacio {
+  grid-column: 1 / -1;
+  padding: 1rem 0;
+  color: var(--texto-suave);
+}
+
+/* ====== BOTONES ====== */
+.btn-tienda {
+  padding: 0.6rem 1.1rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.2s, background-color 0.2s;
+}
+
+.btn-principal {
+  background: var(--degradado);
+  color: #0e0f1f;
+}
+
+.btn-principal:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.btn-secundario {
+  background: transparent;
+  border-color: var(--borde);
+  color: var(--texto);
+}
+
+.btn-secundario:hover:not(:disabled) {
+  background-color: var(--superficie-alta);
+}
+
+.btn-tienda:disabled,
+.btn-cantidad:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-enlace {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--cian);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.btn-enlace:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ====== PANEL LATERAL ====== */
+.panel-lateral {
+  position: sticky;
+  top: 5.5rem;
+  padding: 1.25rem;
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 0.75rem;
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+}
+
+@media (max-width: 991.98px) {
+  .panel-lateral {
+    position: static;
+    max-height: none;
+  }
+}
+
+.lista-carrito {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.linea-carrito {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.2rem 0.75rem;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+.linea-nombre {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.linea-detalle {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+.control-cantidad {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  grid-row: 3;
+}
+
+.btn-cantidad {
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 1px solid var(--borde);
+  border-radius: 0.4rem;
+  background: var(--superficie-alta);
+  color: var(--texto);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cantidad {
+  min-width: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.linea-subtotal {
+  grid-row: 3;
+  grid-column: 2;
+  text-align: right;
+}
+
+.linea-carrito .btn-enlace {
+  grid-column: 1 / -1;
+  justify-self: start;
+  font-size: 0.85rem;
+}
+
+/* ====== CUPÓN ====== */
+.etiqueta-campo {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+.fila-cupon {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.estado-cupon {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--exito);
+}
+
+.estado-cupon[hidden] {
+  display: none;
+}
+
+.bloque-cupon {
+  margin-bottom: 1rem;
+}
+
+/* ====== TOTALES ====== */
+.totales {
+  margin: 0 0 1rem;
+}
+
+.fila-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0;
+}
+
+.fila-total dt,
+.fila-total dd {
+  margin: 0;
+  font-weight: 400;
+}
+
+.fila-descuento dd {
+  color: var(--exito);
+}
+
+.fila-total-final {
+  margin-top: 0.4rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--borde);
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 1.35rem;
+}
+
+.fila-total-final dt,
+.fila-total-final dd {
+  font-weight: 700;
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* ====== ESTADO DE GUARDADO ====== */
+.estado-sync {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+.estado-sync-ok {
+  color: var(--exito);
+}
+
+.estado-sync-error {
+  color: var(--peligro);
+}
+
+/* ====== CHECKOUT Y COMPROBANTE ====== */
+.resumen-checkout {
+  margin-bottom: 1.25rem;
+  font-size: 1.1rem;
+}
+
+.pedido-numero {
+  margin: 0 0 0.25rem;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--cian);
+}
+
+.lista-comprobante {
+  margin: 1rem 0;
+}
+
+.lista-comprobante li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--borde);
+}
+
+.detalle-pedido {
+  margin-bottom: 1.25rem;
+}
+
+/* ====== PIE ====== */
+.pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 1.25rem;
+  border-top: 1px solid var(--borde);
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.pie p {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

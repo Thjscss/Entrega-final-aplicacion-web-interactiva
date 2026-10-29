@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" role="img" aria-label="Auriculares gamer">
+  <defs>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
+    <radialGradient id="fondo" cx="50%" cy="45%" r="75%"><stop offset="0" stop-color="#2a2d5a"/><stop offset="1" stop-color="#151732"/></radialGradient>
+  </defs>
+  <rect width="300" height="200" fill="url(#fondo)"/>
+  <path d="M70 118 C70 54 106 30 150 30 C194 30 230 54 230 118" fill="none" stroke="url(#neon)" stroke-width="10" stroke-linecap="round"/>
+  <rect x="52" y="104" width="44" height="66" rx="16" fill="#1b1d3d" stroke="url(#neon)" stroke-width="4"/>
+  <rect x="204" y="104" width="44" height="66" rx="16" fill="#1b1d3d" stroke="url(#neon)" stroke-width="4"/>
+  <path d="M74 170 C74 188 96 192 118 188" stroke="url(#neon)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <circle cx="124" cy="187" r="6" fill="url(#neon)"/>
+</svg>

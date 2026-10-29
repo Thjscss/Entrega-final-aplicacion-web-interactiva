@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gamer Store | Mouse, teclados y auriculares</title>
+  <link rel="icon" href="./assets/img/logo.png" type="image/png">
+
+  <!-- Estilos: Bootstrap (grilla y formularios), Toastify y CSS propio -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link rel="stylesheet" href="./css/estilos.css">
+
+  <!-- Tipografías -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <header class="barra-superior">
+    <a class="marca" href="./index.html">
+      <img class="marca-logo" src="./assets/img/logo.png" alt="">
+      <span>Gamer Store</span>
+    </a>
+    <a class="enlace-carrito" href="#panel-lateral">
+      Carrito
+      <span id="contador-carrito" class="contador-carrito" aria-live="polite">0</span>
+    </a>
+  </header>
+
+  <main class="container-xxl contenido">
+
+    <section class="portada">
+      <h1>Productos gaming</h1>
+      <p>Elegí tus periféricos, armá el carrito y confirmá la compra.</p>
+    </section>
+
+    <div class="row g-4">
+
+      <!-- ============ CATÁLOGO ============ -->
+      <section class="col-lg-8" aria-labelledby="titulo-catalogo">
+        <h2 id="titulo-catalogo" class="titulo-seccion">Catálogo</h2>
+
+        <div class="herramientas">
+          <input type="search" id="input-busqueda" class="form-control" placeholder="Buscar producto por nombre"
+            aria-label="Buscar producto por nombre" disabled>
+
+          <select id="select-orden" class="form-select" aria-label="Ordenar productos" disabled>
+            <option value="relevancia">Orden original</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+            <option value="nombre">Nombre: A a Z</option>
+          </select>
+        </div>
+
+        <div id="filtros-categoria" class="filtros-categoria" role="group" aria-label="Filtrar por categoría">
+          <button type="button" class="chip activo" data-categoria="todas" aria-pressed="true">Todas</button>
+          <button type="button" class="chip" data-categoria="mouse" aria-pressed="false">Mouse</button>
+          <button type="button" class="chip" data-categoria="teclado" aria-pressed="false">Teclados</button>
+          <button type="button" class="chip" data-categoria="auriculares" aria-pressed="false">Auriculares</button>
+        </div>
+
+        <!-- Estados de la petición: cargando / error con reintento -->
+        <div id="estado-carga" class="estado-carga" role="status" aria-live="polite" hidden>
+          <div class="spinner-border spinner-border-sm" aria-hidden="true"></div>
+          <span>Cargando productos…</span>
+        </div>
+
+        <div id="bloque-error" class="bloque-error" role="alert" hidden>
+          <p id="texto-error"></p>
+          <button type="button" id="btn-reintentar" class="btn-tienda btn-principal">Reintentar</button>
+        </div>
+
+        <p id="contador-resultados" class="contador-resultados" aria-live="polite"></p>
+        <div id="catalogo" class="grilla-productos"></div>
+      </section>
+
+      <!-- ============ CARRITO / CHECKOUT / CONFIRMACIÓN ============ -->
+      <aside id="panel-lateral" class="col-lg-4" aria-label="Carrito de compras">
+        <div class="panel-lateral">
+
+          <!-- Vista 1: carrito -->
+          <div id="vista-carrito">
+            <h2 class="titulo-seccion">Tu carrito</h2>
+
+            <p id="carrito-vacio" class="mensaje-vacio">Todavía no agregaste productos. Elegí alguno del catálogo.</p>
+            <ul id="lista-carrito" class="lista-carrito"></ul>
+
+            <div class="bloque-cupon">
+              <label for="input-cupon" class="etiqueta-campo">Cupón de descuento</label>
+              <div class="fila-cupon">
+                <input type="text" id="input-cupon" class="form-control" placeholder="Ej: GAMER10" autocomplete="off"
+                  disabled>
+                <button type="button" id="btn-aplicar-cupon" class="btn-tienda btn-secundario" disabled>Aplicar</button>
+              </div>
+              <p id="estado-cupon" class="estado-cupon" hidden>
+                <span id="texto-cupon"></span>
+                <button type="button" id="btn-quitar-cupon" class="btn-enlace">Quitar</button>
+              </p>
+            </div>
+
+            <dl class="totales">
+              <div class="fila-total">
+                <dt>Subtotal</dt>
+                <dd id="subtotal">$ 0</dd>
+              </div>
+              <div id="fila-descuento" class="fila-total fila-descuento" hidden>
+                <dt>Descuento</dt>
+                <dd id="descuento">- $ 0</dd>
+              </div>
+              <div class="fila-total fila-total-final">
+                <dt>Total</dt>
+                <dd id="total">$ 0</dd>
+              </div>
+            </dl>
+
+            <div class="acciones">
+              <button type="button" id="btn-finalizar" class="btn-tienda btn-principal" disabled>Finalizar compra</button>
+              <button type="button" id="btn-vaciar" class="btn-tienda btn-secundario" disabled>Vaciar carrito</button>
+            </div>
+            <small id="estado-sync" class="estado-sync"></small>
+          </div>
+
+          <!-- Vista 2: datos para confirmar la compra -->
+          <div id="vista-checkout" hidden>
+            <h2 class="titulo-seccion">Confirmar compra</h2>
+            <p class="resumen-checkout">Total a pagar: <strong id="total-checkout">$ 0</strong></p>
+
+            <form id="form-compra" novalidate>
+              <div class="mb-3">
+                <label for="input-nombre" class="etiqueta-campo">Nombre y apellido</label>
+                <input type="text" id="input-nombre" class="form-control" autocomplete="name">
+                <div id="error-nombre" class="invalid-feedback"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="input-email" class="etiqueta-campo">Email</label>
+                <input type="email" id="input-email" class="form-control" autocomplete="email">
+                <div id="error-email" class="invalid-feedback"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="select-pago" class="etiqueta-campo">Forma de pago</label>
+                <select id="select-pago" class="form-select">
+                  <option value="">Elegí una opción</option>
+                  <option value="Transferencia bancaria">Transferencia bancaria</option>
+                  <option value="Tarjeta de crédito o débito">Tarjeta de crédito o débito</option>
+                  <option value="Efectivo al retirar">Efectivo al retirar</option>
+                </select>
+                <div id="error-pago" class="invalid-feedback"></div>
+              </div>
+
+              <div class="acciones">
+                <button type="submit" id="btn-confirmar" class="btn-tienda btn-principal">Confirmar compra</button>
+                <button type="button" id="btn-volver" class="btn-tienda btn-secundario">Volver al carrito</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Vista 3: comprobante del pedido -->
+          <div id="vista-confirmacion" hidden>
+            <h2 class="titulo-seccion">¡Compra confirmada!</h2>
+            <div id="detalle-pedido" class="detalle-pedido"></div>
+            <div class="acciones">
+              <button type="button" id="btn-seguir-comprando" class="btn-tienda btn-principal">Seguir comprando</button>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <p>Simulador de compra online · Proyecto final de JavaScript</p>
+    <button type="button" id="btn-reiniciar" class="btn-enlace" disabled>Reiniciar tienda</button>
+  </footer>
+
+  <!-- Las librerías van ANTES de main.js para que Toastify y Swal existan cuando se ejecute -->
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="./js/main.js"></script>
+</body>
+
+</html>
