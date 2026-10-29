@@ -2,6 +2,8 @@
 
 Aplicación web interactiva que simula el circuito completo de una compra online de periféricos gaming (mouse, teclados y auriculares). Proyecto final del curso de JavaScript.
 
+**Demo online:** https://thjscss.github.io/Entrega-final-aplicaci-n-web-interactiva/
+
 ## Circuito de compra
 
 1. **Ver productos:** el catálogo se carga con `fetch` desde `data/productos.json`.
